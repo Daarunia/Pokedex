@@ -2,13 +2,61 @@
   <div class="detail">
     <div class="detail-view card">
       <div class="data card-body"></div>
-      <button class="close">Fermer</button>
+      <img class="image" v-bind:src="urlImage+pokemon.name+'.png'">
+
+      <h2 class="card-title">{{pokemon.name}}</h2>
+      <div class="property">
+          <div class="left bold">Experience</div>
+          <div class="right">{{pokemon.base_experience}}XP</div>
+      </div>
+      <div class="property">
+          <div class="left bold">Taille</div>
+          <div class="right">{{pokemon.height/10}}m</div>
+      </div>
+      <div class="property">
+          <div class="left bold">Poids</div>
+          <div class="right">{{pokemon.weight/10}}kg</div>
+      </div>
+      <h3>Types</h3>
+      <div class="types">
+          <div v-for="item in pokemon.types" :key="item.id" class="type"><span :class = "item.type.name">{{item.type.name}}</span></div>
+      </div>
+      <h3>Abilities</h3>
+      <div class="abilities">
+          <div v-for="item in pokemon.abilities" :key="item.id" class="ability"><span :class = "item.ability.name">{{item.ability.name}}</span></div>
+      </div>
+      <button class="close" @click="eventClick">Fermer</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from 'axios'
+import url from '../config/config.json'
+export default {
+  props:['pokemonURL'],
+  data:function(){ return { 
+      pokemon:{}, 
+      urlImage:url.IMG_URL,
+    }
+  },
+  methods:{
+    eventClick: function(){
+      this.$emit("clickButton")
+    }
+  },
+  created(){
+    axios 
+      .get(this.pokemonURL)
+      .then((response) => {
+        this.pokemon=response.data;
+      })
+      .catch(() => {
+        console.log('perdu');
+      })
+  },
+};
+  axios
 </script>
 
 <style lang="scss" scoped>
@@ -58,7 +106,7 @@ export default {};
   .fairy {
     background: rgb(248, 165, 237) !important;
   }
-  .eletric {
+  .electric {
     background: rgb(255, 217, 1) !important;
   }
   .rock {
