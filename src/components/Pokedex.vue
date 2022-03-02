@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <PokemonSearch />
-    <PokemonDetail />
-    <PokemonList />
+    <PokemonDetail v-if="clickButton === true" @clickButton = "clickButton = false" :pokemonURL="pokemon.url"/>
+    <PokemonList @showDetail="showWindow"/>
   </div>
 </template>
 
@@ -12,6 +12,18 @@ import PokemonList from "../components/PokemonList.vue";
 import PokemonSearch from "../components/PokemonSearch.vue";
 
 export default {
+  data:function(){ return { 
+      numero: 0,
+      clickButton: false,
+      pokemon: '',
+    }
+  },
+  methods: {
+    showWindow : function(pokemon){
+      this.clickButton = true;
+      this.pokemon = pokemon;
+    }
+  },
   components: {
     PokemonDetail,
     PokemonList,
