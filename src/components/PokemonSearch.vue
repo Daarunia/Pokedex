@@ -1,5 +1,5 @@
 <template>
-  <div class="searchbar"></div>
+  <div class="searchbar"><input type="text" placeholder="Nom complet du pokemon"></div>
 </template>
 
 <script>
