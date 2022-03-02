@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <article v-for="item in pokemon" :key="item"><img v-bind:src="urlImage+item.name+'.png'"><h3>{{ item.name }}</h3></article>
+    <article v-for="item in pokemon" :key="item.id" @click="clickButton(item)"><img v-bind:src="urlImage+item.name+'.png'"><h3>{{ item.name }}</h3></article>
   </div>
 </template>
 
@@ -21,14 +21,16 @@ export default {
       .then((response) => {
         this.pokemon=response.data.results;
         this.allPokemon=response.data.results;
-        console.log(response);
+       // console.log(response);
       })
       .catch((error) => {
         console.log(error);
       })
   },
-  mounted() {
-    console.log(this.pokemon)
+  methods:{
+    clickButton: function(pokemon){
+      this.$emit("showDetail",pokemon);
+    }
   },
 };
 </script>
