@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <article v-for="item in pokemon" :key="item.id" @click="clickButton(item)"><img v-bind:src="urlImage+item.name+'.png'"><h3>{{ item.name }}</h3></article>
+    <article v-for="item in pokemonFiltered" :key="item.id" @click="clickButton(item)"><img v-bind:src="urlImage+item.name+'.png'"><h3>{{ item.name }}</h3></article>
   </div>
 </template>
 
@@ -8,6 +8,7 @@
 /*<li v-for="item in Characters" :key="item"><h3>{{ item.name }}</h3><img v-bind:src=item.images.portrait><button v-on:click="add(item)">Ajouter</button></li>*/
 import axios from 'axios'
 import url from '../config/config.json'
+import _ from 'lodash' 
 export default {
   data:function(){ return { 
       pokemon:[], 
@@ -15,6 +16,7 @@ export default {
       urlImage:url.IMG_URL,
     }
   },
+  props: ['pokeSearched'],
   created(){
     axios 
       .get(url.API_URL+'/pokemon?&limit=1026')
@@ -32,6 +34,18 @@ export default {
       this.$emit("showDetail",pokemon);
     }
   },
+  computed:{
+    pokemonFiltered(){
+      let regexp = new RegExp(this.pokeSearched+'.*',"gi")
+      if (this.pokeSearched == null){
+        return this.pokemon;
+      } else {
+        return _.filter(this.pokemon, function(element){
+          return regexp.test(element.name)
+        })
+      }
+    }
+  }
 };
 </script>
 

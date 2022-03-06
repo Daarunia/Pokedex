@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <PokemonSearch />
+    <PokemonSearch v-on:searchPokemonEmit='setPokemonSearch'/>
     <PokemonDetail v-if="clickButton === true" @clickButton = "clickButton = false" :pokemonURL="pokemon.url"/>
-    <PokemonList @showDetail="showWindow"/>
+    <PokemonList @showDetail="showWindow" :pokeSearched='pokeSearched'/>
   </div>
 </template>
 
@@ -16,12 +16,16 @@ export default {
       numero: 0,
       clickButton: false,
       pokemon: '',
+      pokeSearched:'',
     }
   },
   methods: {
     showWindow : function(pokemon){
       this.clickButton = true;
       this.pokemon = pokemon;
+    },
+    setPokemonSearch : function(pokeSearched){
+      this.pokeSearched = pokeSearched
     }
   },
   components: {
