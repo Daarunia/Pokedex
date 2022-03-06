@@ -17,7 +17,7 @@ export default {
   },
   created(){
     axios 
-      .get(url.API_URL+'/pokemon?&limit=151')
+      .get(url.API_URL+'/pokemon?&limit=1026')
       .then((response) => {
         this.pokemon=response.data.results;
         this.allPokemon=response.data.results;
